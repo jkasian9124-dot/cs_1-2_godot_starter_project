@@ -6,7 +6,8 @@ var xDirection = 0
 var facing = "down"
 var ySpeed = 300.0
 var yDirection = 0
-
+var coins=0
+var health=5
 # TODO: Add health system variables
 # var health = ?
 # var maxHealth = ?
@@ -21,43 +22,82 @@ func _physics_process(_delta):
 	# - When RIGHT is pressed: returns 1.0  
 	# - When NOTHING is pressed: returns 0.0
 	xDirection = Input.get_axis("ui_left", "ui_right")
+	velocity.x=xSpeed * xDirection
+	#xDirection=input.getaxi
+	# TODO: Print the direction to see what number we get
+	if facing == "up":
+		pass
+	# Type this exactly: print("X Direction: ", xDirection)
+	
 	
 	# TODO: Get vertical input (up/down keys)  
 	# Same idea, but for up and down movement
 	yDirection = Input.get_axis("ui_up", "ui_down")
+	velocity.y=ySpeed*yDirection
 	
-
+	# TODO: Print the Y direction too
+	# Type this exactly: print("Y Direction: ", yDirection)
+	
+	
 	# TODO: Calculate X movement by multiplying direction × speed
 	# This gives us the actual pixels to move this frame
 	# If direction is 1 and speed is 300, we get 300 pixels right
 	# If direction is -1 and speed is 300, we get -300 pixels (left)
-	velocity.x=xSpeed*xDirection
+	# Type this exactly: var velocity.y = xDirection * xSpeed
+	
 	
 	# TODO: Calculate Y movement the same way
-	velocity.y = ySpeed * yDirection
+	# Type this exactly: var velocity.y = yDirection * ySpeed  
+	
+	
 	
 	# TODO: Set the player's velocity (how fast they're moving)
 	# Godot's CharacterBody2D uses a velocity system
+	# Type this exactly: velocity.x = xVector
 	
+	
+	# TODO: Set the Y velocity too
+	# Type this exactly: velocity.y = yVector
 	
 	
 	# TODO: Update facing direction based on movement
 	# Use if statements to check xDirection and yDirection
 	# Set facing to "right", "left", "down", or "up"
 	# Only update facing when actually moving (direction != 0)
-	
-	
+	if xDirection>0:
+		facing="right"
+	elif xDirection<0:
+		facing="left"
+	elif yDirection<0:
+		facing="up"
+	elif yDirection>0:
+		facing="down"
 	# TODO: Update animation based on facing direction
 	# Call your update_animation() function here
+	
+	
+	# TODO: Check for shooting input
+	# Use: if Input.is_action_just_pressed("ui_accept"):
+	# Then call your shoot() function
+	
 	
 	# TODO: Actually apply the movement
 	# This is a special Godot function that makes the movement happen
 	move_and_slide()
+	update_animation()
+	
+	
+	# TODO: Print confirmation that we moved
+	# Type this exactly: print("Player moved!")
+
 
 # TODO: Create animation function (add this outside of _physics_process)
 func update_animation():
 	# TODO: Set the animation based on the facing direction
-	# Use: _animation_player.play("idle_" + facing)
+	if xDirection == 0 and yDirection == 0:
+		_animation_player.play("idle_" + facing)
+	else:
+		_animation_player.play("walk_" + facing)
 	# This combines "idle_" with whatever direction we're facing
 	pass
 
@@ -69,7 +109,9 @@ func change_health(amount):
 	# TODO: Print the new health value
 	# TODO: Check if health <= 0 for death (optional challenge)
 	print("Health changed by: ", amount)
-
+	health+=amount
+func change_coins(amount):
+	coins+=amount
 
 # TODO: Create shooting function
 func shoot():
