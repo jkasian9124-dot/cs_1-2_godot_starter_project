@@ -65,7 +65,7 @@ func update_animation():
 	elif !velocity.is_zero_approx():
 		#walking animation here
 		_animation_player.play("walk_" + facing)
-		print("test")
+		
 		pass
 		
 	
